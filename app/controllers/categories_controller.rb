@@ -1,9 +1,11 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_category, only: [ :show, :edit, :update, :delete ]
+  before_action :set_category, only: [ :show, :edit, :update, :destroy ]
+
+  # Rails.logger.debug "Category class: #{@category.class.name}, id: #{@category.id}"
 
   def index
-    @category = current_user.categories
+    @categories = current_user.categories
   end
 
   def show
@@ -17,7 +19,7 @@ class CategoriesController < ApplicationController
     @category = current_user.categories.new(category_params)
 
     if @category.save
-      redirect_to @category, status: :created
+      redirect_to @category
     else
       render :new, status: :unprocessable_content
     end
@@ -28,7 +30,7 @@ class CategoriesController < ApplicationController
 
   def update
     if @category.update(category_params)
-      redirect_to @category, status: :ok
+      redirect_to @category, status: :see_other
     else
       render :edit, status: :unprocessable_content
     end
@@ -36,7 +38,7 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category.destroy
-    redirect_to categories_url, status: :see_other # HTTP 303 See Other
+    redirect_to categories_path, status: :see_other # HTTP 303 See Other
   end
 
   private

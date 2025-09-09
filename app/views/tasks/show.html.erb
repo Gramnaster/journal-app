@@ -1,0 +1,22 @@
+<h3>Categories:</h3>
+<% @task.categories.each do |category|%>
+  <span class="category-badge"><%= category.title%></span>
+<%end%>
+
+<h4>Add Category:</h4>
+<%= form_with model: [@task, CategoryTask.new], url: category_tasks_path do |f|%>
+  <%= f.collection_select :category_id, current_user.categories, :id, :title%>
+  <%= f.hidden_field :task_id, value: @task.id%>
+  <%= f.submit "Add Category"%>
+<%end%>
+
+<p><%= notice %></p>
+
+<%= render @task %>
+
+<div>
+  <%= link_to "Edit this task", edit_task_path(@task) %>
+  <%= link_to "Back to task", tasks_path %>
+
+  <%= button_to "Destroy this task", @task, method: :delete %>
+</div>

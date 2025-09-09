@@ -1,0 +1,23 @@
+<%= form_with(model: task) do |form|%>
+  <% if task.errors.any?%>
+    <ul>
+      <% task.errors.each do |error| %>
+      <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block"%>
+    <%= form.text_field :title%>
+  </div>
+
+  <div>
+    <%= form.label :content, style: "display: block"%>
+    <%= form.text_field :conotent%>
+  </div>
+
+  <div>
+    <%= form.submit%>
+  </div>
+<% end %>

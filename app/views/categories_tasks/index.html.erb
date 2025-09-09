@@ -1,0 +1,8 @@
+<h1> Task Categories </h1>
+<% @category_tasks.each do |ct|%>
+  <div>
+    Task: <%= ct.task.title %>
+    Category: <%= ct.category.title %>
+    <%= link_to "Remove", ct, method: :delete%>
+  </div>
+<%end%>

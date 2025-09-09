@@ -1,0 +1,10 @@
+<div id="<%= dom_id task%>">
+  <h2><%= task.content %></h2>
+  <h2><%= task.title%></h2>
+  <h2><%= task.user.username%></h2>
+  <h2><%= task.categories.each do |category| %>
+      <%= category %>
+    <% end %>
+  </h2>
+
+</div>
