@@ -1,47 +1,49 @@
 class CategoriesTasksController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_category_task, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_category_task, only: [ :destroy ]
 
   def index
     @category_tasks = current_user.category_tasks
   end
 
-  def show
-  end
+  # def show
+  # end
 
-  def new
-    @category_task = CategoryTask.new
-    @categories = current_user.categories
-    @tasks = current_user.tasks
-  end
+  # def new
+  #   @category_task = CategoryTask.new
+  #   @categories = current_user.categories
+  #   @tasks = current_user.tasks
+  # end
 
   def create
-    @category_task = current_user.category_tasks.new(category_task_params)
+    @category_task = CategoryTask.new(category_task_params)
+
     if @category_task.save
-      redirect_to @category_task
+      redirect_to category_path(@category_task.category), status: :created
     else
-      @categories = current_user.categories
-      @tasks = current_user.tasks
-      render :new, status: :unprocessable_content
+      redirect_to category_path(@category_task.category), status: :unprocessable_content
     end
   end
 
-  def edit
-  end
+  # def edit
+  #   @categories = current_user.categories
+  #   @tasks = current_user.tasks
+  # end
 
-  def update
-    if @category_task.update(category_task_params)
-      redirect_to @category_task, status: :see_other
-    else
-      @categories = current_user.categories
-      @tasks = current_user.tasks
-      render :edit, status: :unprocessable_content
-    end
-  end
+  # def update
+  #   if @category_task.update(category_task_params)
+  #     redirect_to @category_task, status: :see_other
+  #   else
+  #     @categories = current_user.categories
+  #     @tasks = current_user.tasks
+  #     render :edit, status: :unprocessable_content
+  #   end
+  # end
 
   def destroy
+    @category = @category_task.category
     @category_task.destroy
-    redirect_to category_tasks_path, status: :see_other
+    redirect_to category_path(@category), status: :see_other
   end
 
   private

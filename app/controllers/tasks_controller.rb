@@ -17,7 +17,15 @@ class TasksController < ApplicationController
     @task = current_user.tasks.new(task_params)
 
     if @task.save
-      redirect_to @task, status: :created
+      if params[:task][:category_ids].present?
+        @task.categories = current_user.categories.where(id: params[:task][:category_ids])
+      end
+
+      if params[:return_to].present?
+        redirect_to params[:return_to], status: :created
+      else
+        redirect_to @task, status: :created
+      end
     else
       render :new, status: :unprocessable_content
     end
@@ -45,6 +53,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content)
+    params.require(:task).permit(:title, :content, category_ids: [])
   end
 end

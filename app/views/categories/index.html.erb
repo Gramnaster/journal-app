@@ -1,3 +1,10 @@
+<% if user_signed_in? %>
+  <p>Welcome, <%= current_user.username %>!</p>
+  <%= button_to "Sign Out", destroy_user_session_path, method: :delete %>
+<% else %>
+  <%= link_to "Sign In", new_user_session_path %>
+<% end %>
+
 <p style="color: green"><%= notice %></p>
 
 <% content_for :title, "Categories" %>

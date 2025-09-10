@@ -1,5 +1,33 @@
 <p style="color: green"><%= notice %></p>
 
+<h1><%= @category.title %></h1>
+
+<h3>Tasks in this category:</h3>
+<% @category.tasks.each do |task| %>
+  <div>
+    <%= link_to task.title, task %>
+    <%= button_to "Remove from category", category_task_path(@category.category_tasks.find_by(task: task)), method: :delete %>
+  </div>
+<% end %>
+
+<h4>Add a task to this category:</h4>
+<% available_tasks = current_user.tasks.where.not(id: @category.task_ids) %>
+
+<% if available_tasks.any? %>
+  <%= form_with model: CategoryTask.new, url: category_tasks_path do |f| %>
+    <%= f.collection_select :task_id, 
+        available_tasks, 
+        :id, :title, 
+        { prompt: "Select a task" },
+        { required: true } %>
+    <%= f.hidden_field :category_id, value: @category.id %>
+    <%= f.submit "Add Task" %>
+  <% end %>
+<% else %>
+  <p>All your tasks are already assigned to this category, or you have no tasks.</p>
+  <%= link_to "Create a new task", new_task_path(return_to: category_path(@category)) %>
+<% end %>
+
 <%= render @category %>
 
 <div>

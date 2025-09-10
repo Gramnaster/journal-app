@@ -4,6 +4,11 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
 
+  # devise_scope :user do
+  #   root to: "devise/sessions#new"
+  # end
+  root "categories#index"
+
   resources :categories
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -20,7 +25,7 @@ Rails.application.routes.draw do
   patch "/tasks/:id" => "tasks#update", as: "update_task"
   delete "/tasks/:id" => "tasks#destroy", as: "destroy_task"
 
-  get "/categorytasks" => "categories_tasks#index"
+  get "/categorytasks" => "categories_tasks#index", as: "category_tasks"
   get "/categorytasks/new" => "categories_tasks#new", as: "new_category_task"
   post "/categorytasks/" => "categories_tasks#create", as: "create_category_task"
   get "/categorytasks/:id" => "categories_tasks#show", as: "category_task"
