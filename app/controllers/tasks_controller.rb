@@ -14,18 +14,16 @@ class TasksController < ApplicationController
   end
 
   def create
+    puts "DEBUG: Received params: #{params.inspect}"
+    puts "DEBUG: Task params: #{task_params.inspect}"
+    puts "DEBUG: Category IDs: #{params[:task][:category_ids].inspect}"
     @task = current_user.tasks.new(task_params)
 
     if @task.save
-      # Assign categories AFTER the task is saved
       if params[:task][:category_ids].present?
         category_ids = params[:task][:category_ids].reject(&:blank?)
         categories = current_user.categories.where(id: category_ids)
-
-        # Clear existing associations first
         @task.category_tasks.destroy_all
-
-        # Create new associations
         categories.each do |category|
           CategoryTask.create!(task: @task, category: category)
         end
@@ -63,6 +61,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:title, :content, category_ids: [])
+    params.require(:task).permit(:title, :content)
   end
 end
