@@ -1,11 +1,11 @@
 <div id="<%= dom_id task %>">
-  <h2><%= link_to task.title, task %></h2>
+  <h3><%= link_to task.title, task %></h3>
   <p><%= task.content %></p>
-  <p><strong>Created by:</strong> <%= task.user.username %></p>
+  <p>Created by:<%= task.user.username %></p>
   
   <div class="categories">
     <% if task.categories.any? %>
-      <strong>Categories:</strong>
+      <p>Categories:</p>
       <% task.categories.each do |category| %>
         <span class="category-badge"><%= category.title %></span>
       <% end %>

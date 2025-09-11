@@ -22,6 +22,7 @@
         { required: true } %>
     <%= f.hidden_field :category_id, value: @category.id %>
     <%= f.submit "Add Task" %>
+      <%= link_to "Create a new task", new_task_path(return_to: category_path(@category)) %>
   <% end %>
 <% else %>
   <p>All your tasks are already assigned to this category, or you have no tasks.</p>
